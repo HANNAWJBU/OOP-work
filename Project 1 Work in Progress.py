@@ -8,7 +8,7 @@ print("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/")
 
 tax = .08
 
-def printMenu():
+def print_menu():
     for menu_items in Menu.items():
         print(menu_items)
         print("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/")
@@ -56,7 +56,7 @@ while True:
         print("")
         print("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/")
 
-        printMenu()
+        print_menu()
 
         print("")
         print("Loading Program!")
@@ -81,15 +81,16 @@ while True:
     print("[2] Change Data")
     print("[3] Add Items to Menu")
     print("[4] Remove Items from Menu")
-    print("[5] View Menu")
-    print("[6] Quit")
+    print("[5] Modify Menu Items")
+    print("[6] View Menu")
+    print("[7] Quit")
 
     opt = input("Please enter your selection: ")
 
     if opt == "1":
         print("Input Received!", "[", opt, "]")
 
-        printMenu()
+        print_menu()
 
         itemInput = input("Please enter the ID of the item Purchased: ")
         item = Menu[itemInput]
@@ -109,6 +110,7 @@ while True:
 
         if toReturn > 0:
             print("Change: ", change)
+            print("Sufficient Payment Received :)")
 
         elif toReturn == 0:
             print("No Change")
@@ -151,7 +153,7 @@ while True:
     elif opt == "3":
         print("Input Received!", "[", opt, "]")
 
-        printMenu()
+        print_menu()
 
         iID = input("Enter a new ItemID: ")
         name = input("Enter the Item's name: ")
@@ -168,7 +170,7 @@ while True:
 
     elif opt == "4":
         print("Input Received!", "[", opt, "]")
-        printMenu()
+        print_menu()
 
         toRemove = input("Enter the ID of the Item you wish to remove: ")
         del Menu[toRemove]
@@ -177,12 +179,30 @@ while True:
     elif opt == "5":
         print("Input Received!", "[", opt, "]")
 
+        print_menu()
+
+        iID = input("Enter the ItemID: ")
+        name = input("Enter the Item's new name: ")
+        price = float(input("Enter the Item's new price: "))
+        desc = input("Enter the Item's new description: ")
+
+        Menu.update({iID: {
+            "Name": name,
+            "Price": price,
+            "Desc": desc
+        }})
+
+        print("Item Modified!")
+
+    elif opt == "6":
+        print("Input Received!", "[", opt, "]")
+
         print("Displaying Menu!")
         print("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/")
 
-        printMenu()
+        print_menu()
 
-    elif opt == "6":
+    elif opt == "7":
         print("Input Received!", "[", opt, "]")
         print("Thank you for using the Burger Shack Menu Manager!")
         break
