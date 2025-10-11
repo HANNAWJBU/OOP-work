@@ -37,7 +37,7 @@ class Authors:
 
 class Users:
     def __init__(self):
-        self.Uid = "",
+        self.Uid = 0,
         self.UName = "",
         self.Password = "",
         self.Address = "",
@@ -46,17 +46,20 @@ class Users:
         self.BorrowedBooks = []
 
     def add_user(self):
-        self.Uid = input("Please insert a UserID: ")
+        self.Uid = input("Please insert a UserID: "),
         self.UName = input("Please insert the User's name: ")
         self.Password = input("Please insert a new password: ")
         self.Address = input("Please insert the User's address: ")
-        self.PhoneNum = int(input("Please enter the User's phone number: "))
+        self.PhoneNum = input("Please enter the User's phone number: ")
         self.Email = input("Please enter the User's email: ")
 
         AddedUsers.append(self)
 
-    def checkout_book(self, x):
-        self.BorrowedBooks.append(x)
+    def checkout_book(self, borrowedbook):
+        print("Fired")
+
+        self.BorrowedBooks.append(borrowedbook)
+        print(self.BorrowedBooks)
 
     def display_borrowed_books(self):
         for x in self.BorrowedBooks:
@@ -84,6 +87,7 @@ while 1:
         if opt == "1":
             for x in AddedBooks:
                 print("Books: ",x.Bid, " : ", x.Title, " : ", x.Authid, " : ", x.Publisher, " : ", x.Yop)
+
         elif opt == "2":
             B1 = Books()
             B1.add_book()
@@ -122,14 +126,17 @@ while 1:
         elif opt == "2":
             U1 = Users()
             U1.add_user()
-        elif opt == "3":
-            Target = input("Please enter the User's ID")
-            Target = Users()
 
-            Target.checkout_book(input("Enter the Book ID"))
+        elif opt == "3":
+            User = Users()
+
+            borrowedbook1 = input("Please insert a BookID: ")
+
+            User.checkout_book(borrowedbook1)
 
         elif opt == "4":
-            print()
+            for x in AddedUsers:
+                print("Users: ", x.Uid, " : ", x.UName, " : ", x.BorrowedBooks)
         else:
             print("Invalid Selection Received")
     elif opt == "4":
