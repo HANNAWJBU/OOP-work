@@ -1,4 +1,5 @@
 import math
+import pickle
 
 Menu = {}
 
@@ -13,7 +14,102 @@ def print_menu():
         print(menu_items)
         print("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/")
 
-while True:
+def process_purchase():
+
+    print_menu()
+
+    itemInput = input("Please enter the ID of the item Purchased: ")
+
+    if Menu.__contains__(itemInput):
+        itemPrice = Menu[itemInput]["Price"]
+        totalCost = itemPrice * (1 + tax)
+        cost = math.floor(totalCost * 100) / 100
+
+        print("Item Price: ", cost)
+
+        paid = float(input("Please enter the amount paid: "))
+        toReturn = paid - cost
+
+
+
+        print("Amount Paid: ", paid, " - ", "Item Price: ", cost, " = ", toReturn)
+
+        if toReturn > 0:
+            calculationmoney = toReturn*100
+            fifty_dollar = 5000
+            twenty_dollar = 2000
+            ten_dollar = 1000
+            five_dollar = 500
+            one_dollar = 100
+            quarter = 25
+            dime = 10
+            nickle = 5
+            penny = 1
+            amount = 0
+
+            while calculationmoney >= fifty_dollar:
+                calculationmoney -= fifty_dollar
+                amount += 1
+            print("x", amount, "$50 bill due.")
+            amount = 0
+            while calculationmoney >= twenty_dollar:
+                calculationmoney -= twenty_dollar
+                amount += 1
+            print("x", amount, "$20 bill due.")
+            amount = 0
+            while calculationmoney >= ten_dollar:
+                calculationmoney -= ten_dollar
+                amount += 1
+            print("x", amount, "$10 bill due.")
+            amount = 0
+            while calculationmoney >= five_dollar:
+                calculationmoney -= five_dollar
+                amount += 1
+            print("x", amount, "$5 bill due.")
+            amount = 0
+            while calculationmoney >= one_dollar:
+                calculationmoney -= one_dollar
+                amount += 1
+            print("x", amount, "$1 bill due.")
+            amount = 0
+            while calculationmoney >= quarter:
+                calculationmoney -= quarter
+                amount += 1
+            print("x", amount, "Quarter due.")
+            amount = 0
+            while calculationmoney >= dime:
+                calculationmoney -= dime
+                amount += 1
+            print("x", amount, "Dime due.")
+            amount = 0
+            while calculationmoney >= nickle:
+                calculationmoney -= nickle
+                amount += 1
+            print("x", amount, "Nickle due.")
+            amount = 0
+            while calculationmoney >= penny:
+                calculationmoney -= penny
+                amount += 1
+            print("x", amount, "Penny due.")
+
+        elif 0 == toReturn:
+            print("No Change")
+
+        elif toReturn < 0:
+            print("Insufficient Payment Received >:(")
+
+        else:
+            print("Error")
+
+    else:
+        print("Invalid Item ID")
+
+def save_menu():
+    with open("menu.txt", "wb") as file1:
+        pickle.dump(Menu, file1)
+    file1.close()
+
+while 1:
     updateMenu = input("Would you like to load the preset menu? y/n: ")
 
     if updateMenu == "y":
@@ -70,7 +166,7 @@ while True:
     else:
         print("Invalid Command Received!")
 
-while True:
+while 1:
     print("")
     print("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/")
     print("Welcome to the Burger Shack Menu Manager!")
@@ -83,43 +179,15 @@ while True:
     print("[4] Remove Items from Menu")
     print("[5] Modify Menu Items")
     print("[6] View Menu")
-    print("[7] Quit")
+    print("[7] Save Menu File")
+    print("[8] Quit")
 
     opt = input("Please enter your selection: ")
 
     if opt == "1":
         print("Input Received!", "[", opt, "]")
 
-        print_menu()
-
-        itemInput = input("Please enter the ID of the item Purchased: ")
-        item = Menu[itemInput]
-        itemPrice = item["Price"]
-        totalCost = itemPrice * (1 + tax)
-        cost = math.floor(totalCost * 100) / 100
-
-        print("Item Price: ", cost)
-
-        paid = float(input("Please enter the amount paid: "))
-        toReturn = paid - cost
-
-
-        change = math.ceil(toReturn * 100) / 100
-
-        print("Amount Paid: ", paid, " - ", "Item Price: ", cost, " = ", change)
-
-        if toReturn > 0:
-            print("Change: ", change)
-            print("Sufficient Payment Received :)")
-
-        elif toReturn == 0:
-            print("No Change")
-
-        elif toReturn < 0:
-            print("Insufficient Payment Received >:(")
-
-        else:
-            print("Error")
+        process_purchase()
 
     elif opt == "2":
         print("Input Received!", "[", opt, "]")
@@ -149,6 +217,7 @@ while True:
 
             else:
                 print("Invalid input")
+                break
 
     elif opt == "3":
         print("Input Received!", "[", opt, "]")
@@ -203,6 +272,11 @@ while True:
         print_menu()
 
     elif opt == "7":
+        print("Saving Menu!")
+        save_menu()
+        print("Saved Successfully!")
+
+    elif opt == "8":
         print("Input Received!", "[", opt, "]")
         print("Thank you for using the Burger Shack Menu Manager!")
         break
