@@ -1,8 +1,19 @@
-import math
+#save customer history
+#finish GUI
+
 import pickle
+import json
+import os
+
+from datetime import date
+currentDay = date.today()
+str(currentDay)
 
 Menu = {}
+History = {}
 Cart = []
+
+customerNum = 1
 
 class User:
     def __init__(self):
@@ -54,7 +65,6 @@ def login(x):
                 x = True
                 loggedIn = x
                 return x
-
 
         except EOFError:
             break
@@ -159,8 +169,28 @@ def process_purchase():
             amount += 1
         print("x", amount, "Penny due.")
 
+        Purchases = str(Cart)
+
+        History.update({currentDay:{
+            "Customer Number": customerNum,
+            "Purchases": Purchases
+        }})
+        print(History)
+        customerNum + 1
+        save_history()
+
     elif 0 == toReturn:
         print("No Change")
+
+        Purchases = str(Cart)
+
+        History.update({currentDay: {
+            "Customer Number": customerNum,
+            "Purchases": Purchases
+        }})
+        print(History)
+        customerNum + 1
+        save_history()
 
     elif toReturn < 0:
         print("Insufficient Payment Received >:(")
@@ -169,8 +199,19 @@ def process_purchase():
         print("Error")
 
 def save_menu():
-    with open("menu.txt", "wb") as file1:
+    with open("menu.dat", "wb") as file1:
         pickle.dump(Menu, file1)
+    file1.close()
+
+def save_history():
+    with open("purchase_logs.dat", "ab") as file2:
+      pickle.dump(History, file2)
+    file2.close()
+
+def load_history():
+    with open("purchase_logs.dat", "rb") as file1:
+        Logs = pickle.load(file1)
+        print(Logs)
     file1.close()
 
 #Menu Loader
@@ -178,49 +219,55 @@ while 1:
     updateMenu = input("Would you like to load the preset menu? y/n: ")
 
     if updateMenu == "y":
+
         print("Loading preset menu!")
 
-        itemID = "i1"
-        Name = "Burger"
-        Price = 7.50
-        Desc = "A medium well slow cooked burger."
+        with open("menu.dat", "rb") as file1:
+            Menu = pickle.load(file1)
+            print(Menu)
+        file1.close()
 
-        Menu.update({itemID: {
-            "Item": Name,
-            "Price": Price,
-            "Description": Desc
-        }})
-
-        itemID = "i2"
-        Name = "Fries"
-        Price = 3.00
-        Desc = "A large bag of steak fries."
-
-        Menu.update({itemID: {
-            "Item": Name,
-            "Price": Price,
-            "Description": Desc
-        }})
-
-        itemID = "i3"
-        Name = "Soda"
-        Price = 1.50
-        Desc = "A 16oz fountain drink."
-
-        Menu.update({itemID: {
-            "Item": Name,
-            "Price": Price,
-            "Description": Desc
-        }})
-
-        print("Displaying Current Menu!")
-        print("")
-        print("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/")
-
-        print_menu()
-
-        print("")
-        print("Loading Program!")
+        # itemID = "i1"
+        # Name = "Burger"
+        # Price = 7.50
+        # Desc = "A medium well slow cooked burger."
+        #
+        # Menu.update({itemID: {
+        #     "Item": Name,
+        #     "Price": Price,
+        #     "Description": Desc
+        # }})
+        #
+        # itemID = "i2"
+        # Name = "Fries"
+        # Price = 3.00
+        # Desc = "A large bag of steak fries."
+        #
+        # Menu.update({itemID: {
+        #     "Item": Name,
+        #     "Price": Price,
+        #     "Description": Desc
+        # }})
+        #
+        # itemID = "i3"
+        # Name = "Soda"
+        # Price = 1.50
+        # Desc = "A 16oz fountain drink."
+        #
+        # Menu.update({itemID: {
+        #     "Item": Name,
+        #     "Price": Price,
+        #     "Description": Desc
+        # }})
+        #
+        # print("Displaying Current Menu!")
+        # print("")
+        # print("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/")
+        #
+        # print_menu()
+        #
+        # print("")
+        # print("Loading Program!")
 
         break
 
@@ -269,6 +316,7 @@ while 1:
         print("[8] Add Items to Menu")
         print("[9] View / Remove Items From Cart")
         print("[10] Manage Users")
+        print("[11] View Customer History")
         print("[Q] Quit")
 
     opt = input("Please enter your selection: ")
@@ -412,7 +460,11 @@ while 1:
             else:
                 print("Error")
 
-    elif opt == "Q":
+    elif opt == "11":
+        print("Loading History!")
+        load_history()
+
+    elif opt == "Q" or "q":
         print("Input Received!", "[", opt, "]")
         print("Thank you for using the Burger Shack Menu Manager!")
         break
