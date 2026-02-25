@@ -1,0 +1,118 @@
+package mypack;
+import java.util.Scanner;
+import java.util.function.Function;
+
+class Password{
+	Scanner scnr = new Scanner(System.in);
+	
+	public String password = null;
+	public int passLength;
+	public int lowercaseLetters;
+	public int capitalLetters;
+	public int numbers;
+	public int symbols;
+	public int rating;
+	int i;
+	
+	//module 1 User Inputs
+	public void submitPassword() {
+		System.out.println("Enter your password: ");
+		password = scnr.nextLine();
+		
+		passLength = password.length();
+		
+		//lower case Letters = 1 point
+		//upper case Letters = 2 points
+		//numbers = 2 points
+		//symbols = 5 points
+		
+		for (i = 0; i < passLength; ++i) {
+			char var = password.charAt(i);
+			System.out.println(var);
+			if (Character.isLetter(var)) {
+				if (Character.isUpperCase(var)) {
+					capitalLetters += 1;
+					
+				} else {
+					lowercaseLetters += 1;	
+						
+				} 
+				
+			} else if (Character.isDigit(var)) {
+				numbers += 1;
+				
+			} else {
+				symbols += 1;
+				
+			}
+		}
+	}	
+	
+	//module 2 Strength Checker
+	public void checkStrength() {
+		System.out.println("Lowercase Letters: " + lowercaseLetters);
+		System.out.println("Capital Letters: " + capitalLetters);	
+		System.out.println("Integers: " + numbers);	
+		System.out.println("Symbols: " + symbols);
+		rating = (lowercaseLetters + capitalLetters*2 + numbers*2 + symbols*5);
+		
+		if (rating <= 10) {
+			System.out.println("Password strength rating: " + rating);
+			System.out.println("Extremely weak password detected. Change your password.");
+		} else if (rating <= 25) {
+			System.out.println("Password strength rating: " + rating);
+			System.out.println("Weak password detected. Consider changing your password.");
+		} else if (rating <= 40) {
+			System.out.println("Password strength rating: " + rating);
+			System.out.println("Average password detected. You may want to change your password.");
+		} else if (rating <= 60) {
+			System.out.println("Password strength rating: " + rating);
+			System.out.println("Strong password detected. Your password is secure.");
+		} else if (rating <= 100) {
+			System.out.println("Password strength rating: " + rating);
+			System.out.println("Extremely strong password detected. You do not need to change your password.");
+		} else {
+			System.out.println("Password strength rating: " + rating);
+			System.out.println("Insanely strong password detected. Your password is unbreakable!.");
+		}
+	}
+	
+	public int getRating() {
+		return rating;
+		
+	}
+	
+	//module 3 Password Generator
+	public void generatePassword() {
+		if (rating < 60) {
+			System.out.println("Would you like to change your password? y/n");		
+			
+			while (true) {
+				String choice = scnr.next();
+				if (choice.equals("y")) {
+					password = scnr.nextLine();
+
+					System.out.println("Enter your new password");		
+					
+					break;
+				} else if (choice == "n") {
+					break;
+				} else {
+					System.out.println("Invalid input detected");
+				}
+			}
+		}	
+	}
+}
+
+public class ProjectFinal {
+	public static void main(String[] args) {
+		
+		Password Var = new Password();
+		Var.submitPassword();		
+		Var.checkStrength();
+		Var.getRating();
+		Var.generatePassword();
+		
+	}		
+}
