@@ -2,6 +2,11 @@ package mypack;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+
 
 public class ProjectFinal {
     Scanner scnr = new Scanner(System.in);
@@ -147,6 +152,17 @@ public class ProjectFinal {
                 return password;
             }
         }
+    }
+    
+    public void savePassword() throws Exception {
+    	Files.writeString(Path.of("ProjectFinalData.txt"), "\nNew Line", StandardOpenOption.APPEND);
+    }
+    
+    public void readPassword() throws Exception {
+    	try (BufferedReader reader = Files.newBufferedReader(Path.of("ProjectFinalData.txt"))) {
+    		//create userID variable for determining which line to read
+    	}
+    			
     }
 
     public static void main(String[] args) {
