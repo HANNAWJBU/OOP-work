@@ -5,7 +5,10 @@ import java.util.Scanner;
 import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.io.IOException;
+import java.util.stream.Stream;
 
 
 public class ProjectFinal {
@@ -18,6 +21,8 @@ public class ProjectFinal {
     public int numbers;
     public int symbols;
     public int rating;
+    
+    
 
     public void submitPassword() {
         lowercaseLetters = 0;
@@ -159,8 +164,13 @@ public class ProjectFinal {
     }
     
     public void readPassword() throws Exception {
-    	try (BufferedReader reader = Files.newBufferedReader(Path.of("ProjectFinalData.txt"))) {
-    		//create userID variable for determining which line to read
+    	        String fileName = "example.txt";
+    	        try (Stream<String> stream = Files.lines(Paths.get("ProjectFinalData.txt"))) {
+    	            stream.forEach(System.out::println);
+    	        } catch (IOException e) {
+    	            e.printStackTrace();
+    	        }
+    	    }
     	}
     			
     }
