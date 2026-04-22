@@ -178,6 +178,14 @@ public class ProjectFinal {
     	            System.err.println("Error reading file: " + e.getMessage());
     	        }
     	    }
+    
+    public void wipeData() throws Exception {
+    	try {
+			new PrintWriter("src/mypack/ProjectFinalData.txt").close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+    }
 
     public static void main(String[] args) {
         ProjectFinal app = new ProjectFinal();
@@ -196,7 +204,8 @@ public class ProjectFinal {
                     System.out.println("2. Enter my own password");
                     System.out.println("3. Save password");
                     System.out.println("4. Display passwords");
-                    System.out.println("5. End program");
+                    System.out.println("5. Delete data");
+                    System.out.println("6. End program");
 
                     String choice = app.scnr.nextLine();
 
@@ -213,23 +222,24 @@ public class ProjectFinal {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
+                    	
                     } else if (choice.equals("4")) {
                     	try {
 							app.readPassword();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-                    }
-                    
-                    
-                    
-                    else if (choice.equals("5")) {
-                        System.out.println("Program ended.");
-                        try {
-							new PrintWriter("src/mypack/ProjectFinalData.txt").close();
-						} catch (FileNotFoundException e) {
+                    	
+                    } else if (choice.equals("5")) {
+                    	try {
+							app.wipeData();
+						} catch (Exception e) {						
 							e.printStackTrace();
 						}
+                    }
+                                                               
+                    else if (choice.equals("6")) {
+                        System.out.println("Program ended.");
                         return;
 
                     } else {
